@@ -1,3 +1,9 @@
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <Wire.h>
+
+Adafruit_MPU6050 mpu;
+
 
 #define enA 6
 #define in1 7
@@ -5,6 +11,10 @@
 #define enB 11
 #define in3 12
 #define in4 13
+
+int motorSpeedA = 255;
+int motorSpeedB = 255;
+
 
 void setup(void){
    Serial.begin(9600);

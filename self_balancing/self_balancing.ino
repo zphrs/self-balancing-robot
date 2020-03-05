@@ -52,6 +52,7 @@ void setup(void){
 
 }
 void loop(void){
+    
    digitalWrite(in1, HIGH);
    digitalWrite(in2, LOW);
    digitalWrite(in3, HIGH);

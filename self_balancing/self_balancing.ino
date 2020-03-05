@@ -1,6 +1,7 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
+#include "PID.c"
 
 Adafruit_MPU6050 mpu;
 
@@ -14,14 +15,21 @@ Adafruit_MPU6050 mpu;
 
 int motorSpeedA = 255;
 int motorSpeedB = 255;
-void both(int speed){
-    if(speed < 0){
-        digitalWrite(in1, HIGH);
-        digitalWrite(in2, LOW);
-        digitalWrite(in3, HIGH);
-        digitalWrite(in4, LOW);
-    }
-}
+
+struct PIDConstants drivetrainConsts = {
+  .kP = 1,
+  .kI = 0.1,
+  .kD = 0.01
+};
+
+
+struct PIDState drivetrainState;
+
+int timeStepMs = 500;
+float pos = 0;
+float goal = 1000;
+float voltage = 0;
+
 
 void setup(void){
    Serial.begin(9600);
@@ -52,11 +60,31 @@ void setup(void){
 
 }
 void loop(void){
-    
-   digitalWrite(in1, HIGH);
-   digitalWrite(in2, LOW);
-   digitalWrite(in3, HIGH);
-   digitalWrite(in4, LOW);
-   analogWrite(enA, motorSpeedA);
-   analogWrite(enB, motorSpeedB);
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+  pos = a.gyro.y;
+  
+  float error = goal-pos;
+  voltage = iterate(error, &drivetrainConsts, &drivetrainState);
+
+  
+
+  Serial.print("voltage: ");
+  Serial.print(voltage);
+  Serial.print("\tposition: ");
+  Serial.print(pos);
+  Serial.print("\terror: ");
+  Serial.print(error);
+  Serial.print("\tintegral: ");
+  Serial.print(drivetrainState.integral);
+  Serial.print("\tderivative: ");
+  Serial.print(drivetrainState.derivative);
+  Serial.println();
+  
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enA, motorSpeedA);
+  analogWrite(enB, motorSpeedB);
 }

@@ -14,7 +14,14 @@ Adafruit_MPU6050 mpu;
 
 int motorSpeedA = 255;
 int motorSpeedB = 255;
-
+void both(int speed){
+    if(speed < 0){
+        digitalWrite(in1, HIGH);
+        digitalWrite(in2, LOW);
+        digitalWrite(in3, HIGH);
+        digitalWrite(in4, LOW);
+    }
+}
 
 void setup(void){
    Serial.begin(9600);
@@ -47,8 +54,8 @@ void setup(void){
 void loop(void){
    digitalWrite(in1, HIGH);
    digitalWrite(in2, LOW);
-   digitalWrite(in3, LOW);
-   digitalWrite(in4, HIGH);
+   digitalWrite(in3, HIGH);
+   digitalWrite(in4, LOW);
    analogWrite(enA, motorSpeedA);
    analogWrite(enB, motorSpeedB);
 }

@@ -12,15 +12,22 @@ Adafruit_MPU6050 mpu;
 #define in3 12
 #define in4 13
 
-int motorSpeedA = 255;
+int motorSpeedA = 255; 
 int motorSpeedB = 255;
 void both(int speed){
     if(speed < 0){
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, HIGH);
+        digitalWrite(in3, LOW);
+        digitalWrite(in4, HIGH);
+    } else {
         digitalWrite(in1, HIGH);
         digitalWrite(in2, LOW);
         digitalWrite(in3, HIGH);
         digitalWrite(in4, LOW);
     }
+    analogWrite(enB, abs(speed));
+    analogWrite(enA, abs(speed));
 }
 
 void setup(void){
@@ -52,7 +59,6 @@ void setup(void){
 
 }
 void loop(void){
-    
    digitalWrite(in1, HIGH);
    digitalWrite(in2, LOW);
    digitalWrite(in3, HIGH);

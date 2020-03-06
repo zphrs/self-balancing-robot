@@ -3,7 +3,7 @@
 
 int wait(int cycleLengthMs, int timer){
   int startTime = micros();
-  while(micros() < cycleLengthMs){
+  while(micros() < (unsigned long)cycleLengthMs){
     delayMicroseconds(10);
   }
   int timeWaited = micros() - startTime;

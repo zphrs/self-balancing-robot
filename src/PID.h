@@ -14,4 +14,4 @@ int wait(int cycleLengthMs, int timer);
 
 float iterate(float error, struct PIDConstants *consts, struct PIDState *state);
 
-#endif # PID_LIBRARY
+#endif // PID_LIBRARY

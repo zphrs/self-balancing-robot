@@ -10,7 +10,7 @@ struct PIDState {
   float prevError, integral, derivative;
 };
 
-int wait(int cycleLengthMs, int timer);
+void wait(unsigned long cycleLengthMs, unsigned long *lastTime);
 
 float iterate(float error, struct PIDConstants *consts, struct PIDState *state);
 

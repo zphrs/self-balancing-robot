@@ -26,7 +26,8 @@ struct PIDConstants drivetrainConsts = {
 
 struct PIDState drivetrainState;
 
-int timeStepMs = 500;
+const int timeStepMs = 500;
+unsigned long mainLoopTimer = 0;
 // 0 = straight up
 float pos = 0;
 float goal = 0;
@@ -99,5 +100,5 @@ void loop(void){
   Serial.print(drivetrainState.derivative);
   Serial.println();
 
-  delay(200);
+  wait(timeStepMs, &mainLoopTimer);
 }

@@ -1,13 +1,12 @@
 #include <Arduino.h>
 #include "PID.h"
 
-int wait(int cycleLengthMs, int timer){
-  int startTime = micros();
-  while(micros() < (unsigned long)cycleLengthMs){
-    delayMicroseconds(10);
+void wait(unsigned long cycleLengthMs, unsigned long *lastTime){
+  unsigned long timeToWaitUntil = *lastTime + cycleLengthMs;
+  while(millis() < timeToWaitUntil){
+    delay(10);
   }
-  int timeWaited = micros() - startTime;
-  return timeWaited;
+  *lastTime = millis();
 }
 
 float iterate(float error, struct PIDConstants *consts, struct PIDState *state){

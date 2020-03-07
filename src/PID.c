@@ -18,9 +18,9 @@ float iterate(float error, struct PIDConstants *consts, struct PIDState *state){
 
   float voltage = consts->kP * error + consts->kI * state->integral + consts->kD * state->derivative;
 
-  /*if(integral > 0 != error > 0){
-      integral = 0;
-  }*/
+  if((state->integral > 0) != (error > 0)){
+      state->integral = 0;
+  }
 
   return voltage;
 }

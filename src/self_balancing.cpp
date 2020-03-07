@@ -27,8 +27,9 @@ struct PIDConstants drivetrainConsts = {
 struct PIDState drivetrainState;
 
 int timeStepMs = 500;
+// 0 = straight up
 float pos = 0;
-float goal = 1000;
+float goal = 0;
 float voltage = 0;
 
 void both(int speed){

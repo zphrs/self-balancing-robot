@@ -18,9 +18,9 @@ int motorSpeedA = 255;
 int motorSpeedB = 255;
 
 struct PIDConstants drivetrainConsts = {
-  .kP = 1,
-  .kI = 0.1,
-  .kD = 0.01
+  .kP = 20,
+  .kI = 1,
+  .kD = 60
 };
 
 
@@ -83,8 +83,9 @@ void loop(void){
   
   float error = goal-pos;
   voltage = iterate(error, &drivetrainConsts, &drivetrainState);
+  drivetrainState.integral = constrain(drivetrainState.integral, -180, 180);
 
-  
+  both(voltage);
 
   Serial.print("voltage: ");
   Serial.print(voltage);
@@ -97,11 +98,6 @@ void loop(void){
   Serial.print("\tderivative: ");
   Serial.print(drivetrainState.derivative);
   Serial.println();
-  
-  digitalWrite(in1, HIGH);
-  digitalWrite(in2, LOW);
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, HIGH);
-  analogWrite(enA, motorSpeedA);
-  analogWrite(enB, motorSpeedB);
+
+  delay(200);
 }

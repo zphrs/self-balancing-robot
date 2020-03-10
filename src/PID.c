@@ -4,7 +4,7 @@
 void wait(unsigned long cycleLengthMs, unsigned long *lastTime){
   unsigned long timeToWaitUntil = *lastTime + cycleLengthMs;
   while(millis() < timeToWaitUntil){
-    delay(10);
+    delay(1);
   }
   *lastTime = millis();
 }

@@ -18,15 +18,15 @@ int motorSpeedA = 255;
 int motorSpeedB = 255;
 
 struct PIDConstants drivetrainConsts = {
-  .kP = 20,
-  .kI = 1,
-  .kD = 60
+  .kP = 30,
+  .kI = 0,
+  .kD = 0
 };
 
 
 struct PIDState drivetrainState;
 
-const int timeStepMs = 500;
+const int timeStepMs = 5;
 unsigned long mainLoopTimer = 0;
 // 0 = straight up
 float pos = 0;
@@ -54,11 +54,11 @@ void setup(void){
   while (!Serial)
     delay(10); // will pause Zero, Leonardo, etc until serial console opens
  
-  Serial.println("Adafruit MPU6050 test!");
+  //Serial.println("Adafruit MPU6050 test!");
  
   // Try to initialize!
   if (!mpu.begin()) {
-    Serial.println("Failed to find MPU6050 chip");
+    //Serial.println("Failed to find MPU6050 chip");
     while (1) {
       delay(10);
     }
@@ -76,6 +76,8 @@ void setup(void){
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
 
+  Serial.println("error\tvoltage");
+
 }
 void loop(void){
   sensors_event_t a, g, temp;
@@ -84,21 +86,14 @@ void loop(void){
   
   float error = goal-pos;
   voltage = iterate(error, &drivetrainConsts, &drivetrainState);
-  drivetrainState.integral = constrain(drivetrainState.integral, -180, 180);
+  
+  //drivetrainState.integral = constrain(drivetrainState.integral, -180, 180);
 
   both(voltage);
 
-  Serial.print("voltage: ");
-  Serial.print(voltage);
-  Serial.print("\tposition: ");
-  Serial.print(pos);
-  Serial.print("\terror: ");
   Serial.print(error);
-  Serial.print("\tintegral: ");
-  Serial.print(drivetrainState.integral);
-  Serial.print("\tderivative: ");
-  Serial.print(drivetrainState.derivative);
-  Serial.println();
+  Serial.print("\t");
+  Serial.println(voltage);
 
   wait(timeStepMs, &mainLoopTimer);
 }

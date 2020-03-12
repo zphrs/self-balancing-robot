@@ -18,9 +18,9 @@ int motorSpeedA = 255;
 int motorSpeedB = 255;
 
 struct PIDConstants drivetrainConsts = {
-  .kP = 30,
-  .kI = 2,
-  .kD = 10
+  .kP = 20,
+  .kI = 20,
+  .kD = 0
 };
 
 
@@ -34,7 +34,7 @@ float goal = 0;
 float voltage = 0;
 
 int calcSpeed(float position, int factorOfChange){
- return (factorOfChange * (position*position) + 50);
+ return (-factorOfChange * (tan((M_PI*.05)*position)));
 }
 
 void both(int speed){
@@ -89,17 +89,18 @@ void loop(void){
   pos = a.gyro.y;
   
   float error = goal-pos;
-  //voltage = iterate(error, &drivetrainConsts, &drivetrainState);
-  voltage = calcSpeed(pos, 5);
+  voltage = iterate(error, &drivetrainConsts, &drivetrainState);
+  //voltage = calcSpeed(pos, 125);
   
   //drivetrainState.integral = constrain(drivetrainState.integral, -180, 180);
   
 
   both(voltage);
 
+  /*
   Serial.print(error);
   Serial.print("\t");
   Serial.println(voltage);
-
+  */
   wait(timeStepMs, &mainLoopTimer);
 }

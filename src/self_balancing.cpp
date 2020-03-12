@@ -19,8 +19,8 @@ int motorSpeedB = 255;
 
 struct PIDConstants drivetrainConsts = {
   .kP = 30,
-  .kI = 0,
-  .kD = 0
+  .kI = 2,
+  .kD = 10
 };
 
 

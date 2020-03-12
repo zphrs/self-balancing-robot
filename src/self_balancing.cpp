@@ -34,7 +34,7 @@ float goal = 0;
 float voltage = 0;
 
 int calcSpeed(float pos, int factorOfChange){
- return (0.5 * (pos*pos) + 50);
+ return (factorOfChange * (pos*pos) + 50);
 }
 
 void both(int speed){

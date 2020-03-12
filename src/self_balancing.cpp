@@ -33,8 +33,8 @@ float pos = 0;
 float goal = 0;
 float voltage = 0;
 
-int calcSpeed(float pos, int factorOfChange){
- return (factorOfChange * (pos*pos) + 50);
+int calcSpeed(float position, int factorOfChange){
+ return (factorOfChange * (position*position) + 50);
 }
 
 void both(int speed){
@@ -89,9 +89,11 @@ void loop(void){
   pos = a.gyro.y;
   
   float error = goal-pos;
-  voltage = iterate(error, &drivetrainConsts, &drivetrainState);
+  //voltage = iterate(error, &drivetrainConsts, &drivetrainState);
+  voltage = calcSpeed(pos, 5);
   
   //drivetrainState.integral = constrain(drivetrainState.integral, -180, 180);
+  
 
   both(voltage);
 
